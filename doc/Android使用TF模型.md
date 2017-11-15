@@ -115,3 +115,12 @@ label用在最后一行的 labels.get((int) outputClasses[i])
 labels就是保存文件中所有label的数组，outputClasses就是上个代码段中output输出的内容。
 这个代码段只是把输出结果保存成Recognition对象，然后按照outputScore进行排序，最可能的值排最前面输出。所以我是这么理解的：label数据在模型中就已经存在了，因为pb文件不仅存储了graph，还存储了训练过程的信息。labels文件对我们来说就是为了获得结果。
 
+
+总结
+1. 使用inferenceInterface = new TensorFlowInferenceInterface(assetManager, modelFilename);实例化TF入口类
+2. 通过TF入口实例化graph,Graph g = d.inferenceInterface.graph();
+3. 用g.operation(name)检查输入输出的operation是否存在
+4. 把输入数据转换成数组(Tensor)形式，比如图片：bitmap.getPixels(intValues...)
+5. 把输入数据喂给输入operation  inferenceInterface.feed()
+6. run输出operations inferenceInterface.run()
+7. 用fetch获取结果inferenceInterface.fetch()
