@@ -13,14 +13,32 @@ y = 400 * np.sin(x)
 看这张图发现什么问题没有？
 我们需要做拟合，是在一堆离散的点中找出一条最合适的平滑曲线，让它尽可能穿过更多的点。而这张图的数据点并不是离散的，而是近乎连续的。所以很容易找到一条，而且是唯一的一条曲线，可以完美穿过所有点。
 
+如果使用当前这张图去做拟合，使用下面任何一个模型都可以做出拟合曲线：
+
+```python
+w4 = weight_variable([1])
+b4 = bias_variable([1, hidden_dim + 1])  # 1*401
+y = w4 * x + b4
+# 或者
+w4 = weight_variable([hidden_dim + 1, hidden_dim + 1])  # 401*401
+b4 = bias_variable([1])  # 1*401
+y = tf.matmul(x, w4) + b4
+```
+
+所以为了避免这种情况的发生，我们要在生成曲线的所有点加上一些噪声，使其离散化：
+
+```python
+hidden_dim = 400
+x = tf.placeholder(tf.float32, [1, hidden_dim + 1])
+y = 400 * np.sin(x) + np.random.normal(-100, 100, x.shape)
+```
+
+![](./img/sin_data_new.png)
+
+当我们有了离散的点，下面就可以考虑找一个模型去生成一条尽可能穿过更多点的曲线。
 
 
-
-
-
-
-
-模型使用最简单的
+我们就尝试简单的线性模型
 
 ```python
 y = W*x+b
@@ -37,7 +55,7 @@ y = w4 * x + b4
 选择`W`为[1x1]矩阵，`b`也为[1x1]矩阵，可以想象，运行结果为一条直线
 ![](./img/sin_curve1.png)
 
-调整`b`的形状为[1x401]，发现结果拟合了
+调整`b`的形状为[1x401]，
 
 ```python
 w4 = weight_variable([1])
@@ -48,7 +66,7 @@ y = w4 * x + b4
 ![](./img/sin_curve2.png)
 
 
-把`W`的形状调整为[401x401]，把`b`调成[1x1]，发现生成的曲线也能拟合。
+把`W`的形状调整为[401x401]，把`b`调成[1x1]。
 
 ```python
 w4 = weight_variable([hidden_dim + 1, hidden_dim + 1])  # 401*401
