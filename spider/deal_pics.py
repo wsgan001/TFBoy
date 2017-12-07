@@ -7,7 +7,6 @@ from multiprocessing import Pool
 
 
 def run(input):
-    
     pics = os.listdir(input)
     for pic in pics:
         try:
@@ -19,8 +18,6 @@ def run(input):
         except:
             print("Error When Deal: ", in_pic)
             os.remove(in_pic)
-
-
 
 
 if __name__ == '__main__':

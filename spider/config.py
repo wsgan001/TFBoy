@@ -35,8 +35,10 @@ BASE = 'res'
 
 # SELF_SNAPSHOT = os.path.join(BASE, 'self-snapshot')
 
+# 百度图片 api  word关键字 pn 开始条数  rn显示数量
 URL = r"http://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&fp=result&queryWord={word}&" \
       r"cl=2&lm=-1&ie=utf-8&oe=utf-8&st=-1&ic=0&word={word}&face=0&istype=2nc=1&pn={pn}&rn=60"
+
 
 # PIC_TYPES = {
 #     '建筑': BUILDING,
@@ -54,7 +56,7 @@ URL = r"http://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=2013265
 #     '文本 文字': TEXT,
 #     '自拍': SELF_SNAPSHOT
 #     }
-MAN = os.path.join(BASE, 'man')
+MAN = os.path.join(BASE, 'man')  # path: ./res/man
 WOMAN_ALL = os.path.join(BASE, 'woman-all')
 MAN_ALL = os.path.join(BASE, 'man_all')
 PEN_TEXT = os.path.join(BASE, 'pen')
