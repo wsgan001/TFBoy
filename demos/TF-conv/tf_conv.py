@@ -1,10 +1,6 @@
 # coding: utf-8
 import tensorflow as tf
 
-global input_img
-global conv_filter
-global op
-
 # input tensor shape [batch,         in_height,    in_width,    in_channels]
 # filter shape       [filter_height, filter_width, in_channels, out_channels]
 
@@ -98,7 +94,7 @@ op5 = tf.nn.conv2d(input_img, conv_filter5, strides=[1, 1, 1, 1], padding='SAME'
 # 2  6
 # 14 18
 conv_filter6 = tf.constant([[[[2]]]], tf.float32, [1, 1, 1, 1])
-op6 = tf.nn.conv2d(input_img, conv_filter6, strides=[1, 2, 2, 1], padding='SAME')
+op6 = tf.nn.conv2d(input_img, conv_filter6, strides=[1, 2, 2, 1], padding='VALID')
 # 对于2D的,stride通常取[1, stride, stride, 1]
 # data_format参数 NHWC 或 NCHW     [batch, height, width, channels]  对应stride的[1,2,2,1]
 # 我们把stride改一下
