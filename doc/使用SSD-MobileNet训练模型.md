@@ -15,7 +15,7 @@
 cd models/research/
 # 执行
 protoc object_detection/protos/*.proto --python_out=.
-export PYTHONPATH="${PYTHONPATH}:/home/wow/Github/models:/home/wow/Github/models/research/slim/"
+export PYTHONPATH="${PYTHONPATH}:/home/Github/models:/home/Github/models/research/slim/"
 ```
 
 > 这里的`PYTHONPATH`路径一定要填对，不然会影响到后面运行代码。
@@ -60,7 +60,7 @@ cp object_detection/samples/configs/ssd_mobilenet_v1_pets.config object_detectio
 我们打开pascal_label_map.pbtxt看一下，这个文件里面是类似Json格式的label集，列出了数据集里有哪些`label`。Pascal这个数据集`label`共有20个。
 
 然后打开配置文件ssd_mobilenet_v1_pets.config，把`num_classes`改为`20`
-配置默认训练次数`num_steps: 200000`，我们根据自己需要改，注意这个训练是很慢的，差不多以小时为单位，所以可以适当改小点。
+配置默认训练次数`num_steps: 200000`，我们根据自己需要改，注意这个训练是很慢的，差不多以天为单位，所以可以适当改小点。
 
 然后改一些文件路径：
 
@@ -221,6 +221,61 @@ if __name__ == '__main__':
 
 效果：
 ![](./img/detection_screenshot_27.11.2017.png)
+
+#### 数据制作
+安装[labelImg](https://github.com/tzutalin/labelImg)工具,进行图片的标注.标注后的是`xml`格式的文件,将这些文件按照一定比例分到`train`和`test`目录.
+
+下载[datitran](https://github.com/datitran/raccoon_dataset),作者自己写了一套`xml`转`csv`再转为`record`文件的脚本.比SSD的脚本方便使用.
+
+首先编辑xml_to_csv.py,修改main函数:
+```python
+def main():
+    #image_path = os.path.join(os.getcwd(), 'annotations')
+    image_path = os.path.join('/home/Github/models/research/object_detection/ssd_model/MyImgs/labels/test')
+    xml_df = xml_to_csv(image_path)
+    #xml_df.to_csv('raccoon_labels.csv', index=None)
+    xml_df.to_csv('fish_test_labels.csv', index=None)
+    print('Successfully converted xml to csv.')
+```
+
+执行
+```python
+python xml_to_csv.py
+```
+会生成test的csv,同样,修改代码,生成train的csv.
+
+然后进行csv到record的转换
+
+首先修改`generate_tfrecord.py`,把main函数的`path`改成我们图片路径,然后把`if row_label == 'raccoon':`改成我们的label,比如`fish`.之后执行下面代码:
+```python
+python generate_tfrecord.py --csv_input=fish_train_labels.csv --output_path=fish_train.record
+python generate_tfrecord.py --csv_input=fish_test_labels.csv --output_path=fish_test.record
+```
+然后会生成对应的record文件:
+```bash
+Successfully created the TFRecords: /home/Github/raccoon_dataset/fish_train.record
+Successfully created the TFRecords: /home/Github/raccoon_dataset/fish_test.record
+```
+
+回到我们之前训练SSD的目录,创建自己的label文件`my_label_map.pbtxt`
+```bash
+item {
+  id: 1
+  name: 'fish'
+}
+```
+修改训练配置文件:
+```bash
+num_classes: 1 #20
+```
+再把所有`PATH_TO_BE_CONFIGURED`的地方改掉,就可以用前面的命令进行训练.
+
+训练时会遇到这个错误:
+```bash
+INFO:tensorflow:Restoring parameters from object_detection/train/model.ckpt-5390
+INFO:tensorflow:Error reported to Coordinator: <class 'tensorflow.python.framework.errors_impl.InvalidArgumentError'>, Assign requires shapes of both tensors to match. lhs shape= [1,1,128,12] rhs shape= [1,1,128,126]
+```
+这是因为之前我有训练过模型,训练到5390次就停了.这里配置写的是200k次,所以它会接着之前的结果继续跑.但我们的数据发生了变化,所以会出现这个错误.解决方法就是把train目录删掉,重新生成即可
 
 #### 参考
 [深度学习入门篇--手把手教你用 TensorFlow 训练模型](https://cloud.tencent.com/community/article/351424)
