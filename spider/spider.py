@@ -21,28 +21,18 @@ def decode(url):
     # 再替换剩下的字符
     return url.translate(CHAR_TABLE)
 
-
 # 生成网址列表
 def buildUrls(word):
-    word = urllib.parse.quote(word)  # Replace special characters in string using the %xx escape
-    # print(word)
+    word = urllib.parse.quote(word)
     url = URL
-    urls = (url.format(word=word, pn=x) for x in itertools.count(start=0, step=60))  # 给URL填参数,从0开始一次加60,因为URL定义每页显示60
+    urls = (url.format(word=word, pn=x) for x in itertools.count(start=0, step=60))
     return urls
-
 
 # 解析JSON获取图片URL
 re_url = re.compile(r'"objURL":"(.*?)"')
-
-
 def resolveImgUrl(html):
-    imgUrls = [decode(x) for x in re_url.findall(html)]  # response.content.decode 之后 转码  (有必要这样写吗
-    #
-    # for x in re_url.findall(html):
-    #     print("ori url is %s " % x)
-    #     print("final url is %s " % decode(x))
+    imgUrls = [decode(x) for x in re_url.findall(html)]
     return imgUrls
-
 
 def downImg(imgUrl, dirpath, imgName):
     dir_list = dirpath.split(os.path.sep)
@@ -50,7 +40,7 @@ def downImg(imgUrl, dirpath, imgName):
     try:
         res = requests.get(imgUrl, timeout=15)
         if str(res.status_code)[0] == "4":
-            print(str(res.status_code), ":", imgUrl)
+            print(str(res.status_code), ":" , imgUrl)
             return False
     except Exception as e:
         print("抛出异常：", imgUrl)
@@ -60,13 +50,11 @@ def downImg(imgUrl, dirpath, imgName):
         f.write(res.content)
     return True
 
-
 def mkDir(dirName):
-    dirpath = os.path.join(sys.path[0], dirName)  # sys.path[0](the directory from which the script is loaded)
+    dirpath = os.path.join(sys.path[0], dirName)
     if not os.path.exists(dirpath):
         os.makedirs(dirpath)
     return dirpath
-
 
 def start(name, dir):
     word = name
@@ -88,11 +76,21 @@ def start(name, dir):
 
 
 if __name__ == '__main__':
-    p = Pool(processes=POOLNUM)  # start 4 worker process
+    p = Pool(processes=POOLNUM)
     for name, dir in PIC_TYPES.items():
         print(name, dir)
-        p.apply_async(start, (name, dir))  # evaluate "start(name, dir)" asynchronously
+        p.apply_async(start, (name, dir))
     print('Waiting for all subprocesses done...')
     p.close()
     p.join()
     print('All subprocesses done.')
+
+
+
+
+
+
+
+
+
+

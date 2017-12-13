@@ -2,84 +2,27 @@ import os
 
 POOLNUM = 4
 
-MAX = 100
+MAX = 250
 
 BASE = 'res'
 
-
-# BUILDING = os.path.join(BASE, 'building')
-
-# PEOPLE = os.path.join(BASE, 'people')
-
-# SCENERY = os.path.join(BASE, 'scenery')
-
-# FLOWER = os.path.join(BASE, 'flower')
-
-# CAR = os.path.join(BASE, 'car')
-
-# GROUPPHOTO = os.path.join(BASE, 'group-photo')
-
-# WORKPLACE = os.path.join(BASE, 'work-space')
-
-# CLASSROOM = os.path.join(BASE, 'classroom')
-
-# SNOW = os.path.join(BASE, 'snow')
-
-# MANGA = os.path.join(BASE, 'manga')
-
-# ANIMAL = os.path.join(BASE, 'animal')
-
-# THINGS = os.path.join(BASE, 'things')
-
-# TEXT = os.path.join(BASE, 'text')
-
-# SELF_SNAPSHOT = os.path.join(BASE, 'self-snapshot')
-
-# 百度图片 api  word关键字 pn 开始条数  rn显示数量
 URL = r"http://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&fp=result&queryWord={word}&" \
-      r"cl=2&lm=-1&ie=utf-8&oe=utf-8&st=-1&ic=0&word={word}&face=0&istype=2nc=1&pn={pn}&rn=60"
+      r"cl=2&lm=-1&ie=utf-8&oe=utf-8&st=-1&z=2&ic=0&word={word}&face=0&istype=2nc=1&pn={pn}&rn=60"
 
-
-# PIC_TYPES = {
-#     '建筑': BUILDING,
-#     '人脸': PEOPLE,
-#     '风景': SCENERY,
-#     '花': FLOWER,
-#     '汽车图片': CAR,
-#     '合影': GROUPPHOTO,
-#     '办公室': WORKPLACE,
-#     '教室': CLASSROOM,
-#     '雪景': SNOW,
-#     '动漫': MANGA,
-#     '动物': ANIMAL,
-#     '小物品': THINGS,
-#     '文本 文字': TEXT,
-#     '自拍': SELF_SNAPSHOT
-#     }
-MAN = os.path.join(BASE, 'man')  # path: ./res/man
-WOMAN_ALL = os.path.join(BASE, 'woman-all')
-MAN_ALL = os.path.join(BASE, 'man_all')
-PEN_TEXT = os.path.join(BASE, 'pen')
-SOFT_TEXT = os.path.join(BASE, 'soft')
-PHONE_COM = os.path.join(BASE, 'phone')
-KEYBOARD = os.path.join(BASE, 'keyboard')
-HEADSET = os.path.join(BASE, 'headset')
-CUP = os.path.join(BASE, 'cup')
-FOUNTAIN_PEN = os.path.join(BASE, 'fountain_pen')
-MOBILE_PHONE = os.path.join(BASE, 'mobile_phone')
+HANDGUN = os.path.join(BASE, 'handgun')
+GUNS = os.path.join(BASE, 'guns')
+BULLETS = os.path.join(BASE, 'bullets')
+DAGGER = os.path.join(BASE, 'dagger')
+FIRECRACKER = os.path.join(BASE, 'firecracker')
+KETTLE = os.path.join(BASE, 'kettle')
 
 PIC_TYPES = {
-    '男人 自拍': MAN,
-    '全身照片 女': WOMAN_ALL,
-    '全身照片 男': MAN_ALL,
-    '硬笔书法': PEN_TEXT,
-    '书法': SOFT_TEXT,
-    '手机 电脑':PHONE_COM,
-    '键盘': KEYBOARD,
-    '耳机': HEADSET,
-    '茶杯': CUP,
-    '钢笔': FOUNTAIN_PEN,
-    '手机': MOBILE_PHONE
+    '手枪': HANDGUN,
+    '枪支': GUNS,
+    '弹药': BULLETS,
+    '匕首': DAGGER,
+    '鞭炮': FIRECRACKER,
+    '水壶': KETTLE
 }
 
 STR_TABLE = {
