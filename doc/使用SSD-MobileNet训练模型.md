@@ -220,10 +220,12 @@ if __name__ == '__main__':
 ```
 
 效果：
-![](./img/detection_screenshot_27.11.2017.png)
+![](./img/detection.png)
 
 #### 数据制作
 安装[labelImg](https://github.com/tzutalin/labelImg)工具,进行图片的标注.标注后的是`xml`格式的文件,将这些文件按照一定比例分到`train`和`test`目录.
+
+![](./img/label.png)
 
 下载[datitran](https://github.com/datitran/raccoon_dataset),作者自己写了一套`xml`转`csv`再转为`record`文件的脚本.比SSD的脚本方便使用.
 
@@ -275,7 +277,7 @@ num_classes: 1 #20
 INFO:tensorflow:Restoring parameters from object_detection/train/model.ckpt-5390
 INFO:tensorflow:Error reported to Coordinator: <class 'tensorflow.python.framework.errors_impl.InvalidArgumentError'>, Assign requires shapes of both tensors to match. lhs shape= [1,1,128,12] rhs shape= [1,1,128,126]
 ```
-这是因为之前我有训练过模型,训练到5390次就停了.这里配置写的是200k次,所以它会接着之前的结果继续跑.但我们的数据发生了变化,所以会出现这个错误.解决方法就是把train目录删掉,重新生成即可
+这是因为之前我有训练过模型,训练到5390次就停了.这里配置写的是200k次,所以它会接着之前的结果继续跑.但我们的数据发生了变化,所以会出现这个错误.解决方法就是把train目录删掉,重新生成即可.
 
 #### 参考
 [深度学习入门篇--手把手教你用 TensorFlow 训练模型](https://cloud.tencent.com/community/article/351424)
